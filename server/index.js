@@ -29,5 +29,5 @@ app.listen(PORT, () => {
 app.use(cookieParser());
 app.use(express.json());
 
-app.use("/api", excursion);
-app.use("/api", nightLive);
+app.use("/api/excursion", excursion);
+app.use("/api/night", nightLive);

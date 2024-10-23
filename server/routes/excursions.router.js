@@ -3,6 +3,6 @@ import express from "express";
 import { getExcursions } from "../controllers/excursions.controller.js";
 
 const router = express.Router();
-router.get("/excursions", getExcursions);
+router.get("/get", getExcursions);
 
 export default router;

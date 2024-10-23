@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Scheme = mongoose.Schema;
 
-const nightLiveSchema = new Scheme(
+const nightSchema = new Scheme(
     {
         name: { type: String, required: true },
         highlights: { type: Array, required: true },
@@ -24,6 +24,6 @@ const nightLiveSchema = new Scheme(
 
 );
 
-const nightLive = mongoose.model("night", nightLiveSchema);
+const night = mongoose.model("night", nightSchema);
 
-export default nightLive;
+export default night;
