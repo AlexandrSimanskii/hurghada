@@ -1,8 +1,18 @@
 <template>
   <header class="header container">
-    <img src="/public/images/image/hurghada.png" alt="hurghada" />
+    <router-link to="/"
+      ><img class="logo" src="/public/images/image/hurghada.png" alt="hurghada"
+    /></router-link>
+
     <ul class="navigation">
-      <li class="navigation__el" v-for="list of navList" :key="list">{{ list }}</li>
+      <li
+        class="navigation__el"
+        v-for="list of Object.entries(navList)"
+        @click="$router.push(list[1])"
+        :key="list[0]"
+      >
+        {{ list[0] }}
+      </li>
     </ul>
     <div class="weather">
       <img src="/public/images/icons/wheather.png" alt="cloud" />Hurghada, Red Sea
@@ -13,22 +23,37 @@
       <li class="icons__el"><img src="/public/images/icons/user.png" alt="" /></li>
       <li class="icons__el"><img src="/public/images/icons/menu.png" alt="" /></li>
     </ul>
+    <div class="language">
+      En
+      <div class="img"></div>
+    </div>
   </header>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-const navList: string[] = [
-  'Things to do',
-  'News',
-  'Night life',
-  'Food guide',
-  'Real estate',
-  'Excursions',
-  'Jobs',
-  'Airport transfer',
-  'Contact us'
-]
+const navList: {
+  'Thinks to do': string
+  Excursions: string
+  News: string
+  'Night life': string
+  'Food guide': string
+  'Real estate': string
+  Jobs: string
+  'Airport transfer': string
+  'Contact us': string
+} = {
+  'Thinks to do': 'think',
+  Excursions: 'excursions',
+  News: 'news',
+  'Night life': 'nightlife',
+  'Food guide': 'foodguide',
+  'Real estate': 'realestate',
+  Jobs: 'jobs',
+  'Airport transfer': 'airport',
+  'Contact us': 'contacts'
+}
+
 const temperature = ref('')
 const isAnimate = ref(false)
 
@@ -47,6 +72,7 @@ getWheather()
 
 <style scoped lang="scss">
 @import '@/assets/style/main.scss';
+.logo{cursor: pointer;}
 .weather {
   font-size: 12px;
   font-weight: 500;
@@ -97,6 +123,26 @@ getWheather()
   overflow-y: hidden;
   &__el {
     cursor: pointer;
+  }
+}
+
+.language {
+  cursor: pointer;
+  display: flex;
+  gap: 5px;
+}
+.img {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    mask-image: url(/public/images/icons/language.svg);
+    mask-size: cover;
+    width: 5px;
+    height: 5px;
+    background-color: red;
   }
 }
 @keyframes headerAnimate {

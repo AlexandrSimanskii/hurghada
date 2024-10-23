@@ -5,7 +5,10 @@ export const getExcursions = async (req, res) => {
     try {
         const data = await excursion.find()
 
-        res.json("Привет из Хургады");
+        console.log(data);
+
+
+        res.json(data);
     } catch (error) {
         console.log(error);
     }

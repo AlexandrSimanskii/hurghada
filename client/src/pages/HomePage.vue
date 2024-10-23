@@ -8,23 +8,63 @@
 
       <aside class="aside">
         <ul class="aside__list">
-          <li><img src="/public/images/icons/Facebook_white.png" alt="Facebook" /></li>
-          <li><img src="/public/images/icons/Instagram_white.png" alt="Instagram" /></li>
+          <li><img src="/images/icons/Facebook_white.png" alt="Facebook" /></li>
+          <li><img src="/images/icons/Instagram_white.png" alt="Instagram" /></li>
           <li><img src="/public/images/icons/Twitter_white.png" alt="Twitter" /></li>
           <li><img src="/public/images/icons/Youtube_white.png" alt="Youtube" /></li>
         </ul>
       </aside>
     </section>
+
+    <cards-section :name="'Things To Do in Hurghada'">
+      <card-app v-for="card of thinkToDoCards" :key="card._id" :card="card"></card-app
+    ></cards-section>
   </main>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import CardApp from '@/components/CardApp.vue'
+import CardsSection from '@/components/CardsSection.vue'
+
+import { ref } from 'vue'
+import type { Ref } from 'vue'
+const thinkToDoCards: Ref<
+  {
+    _id: string
+    name: string
+    price: string
+    images: string[]
+    category: string
+    description: string
+    'full descriptions': string
+    duration: string
+    group: string
+    reviews: string[]
+    rating: number
+    location: string
+    'important information': string[]
+    program: string[]
+  }[]
+> = ref([])
+
+const getThinkToDoCards = async () => {
+  try {
+    const data = await fetch('http://localhost:3004/api/excursions')
+    const cards = await data.json()
+    thinkToDoCards.value = cards
+  } catch (error) {
+    console.log("Ошибка при получении 'ThinkToDoCards'")
+  }
+}
+getThinkToDoCards()
+</script>
 
 <style scoped lang="scss">
 @import '@/assets/style/main.scss';
 .top-section {
+  margin-bottom: 120px;
   position: relative;
-  background-image: url(/public/images/image/mainImg.jpg);
+  background-image: url(/images/image/mainImg.jpg);
   background-size: cover;
   overflow: hidden;
   background-repeat: no-repeat;
@@ -51,7 +91,7 @@
     transform: translateX(-1300px);
     opacity: 0;
     animation: welcomeAnimate 2s ease-in-out forwards;
-    animation-delay: calc(($main-animation-duration + $main-animation-delay) * 1.3);
+    animation-delay: calc(($main-animation-duration + $main-animation-delay) * 0.7);
     margin-bottom: 50px;
   }
 }
@@ -62,13 +102,14 @@
   opacity: 0;
   transform: translateY(-50%);
   &__list {
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
   animation: asideAnimate ease-in-out forwards;
-  animation-duration:calc($main-animation-duration / 2) ;
-  animation-delay: calc(($main-animation-duration + $main-animation-delay) * 0.9);
+  animation-duration: calc($main-animation-duration / 2);
+  animation-delay: calc(($main-animation-duration + $main-animation-delay) * 0.5);
 }
 .play {
   transform: scale(0);
@@ -91,9 +132,10 @@
   }
 
   animation: playAnimate ease-in forwards;
-  animation-duration: $main-animation-duration ;
-  animation-delay: calc(($main-animation-duration + $main-animation-delay) * 1.6);
+  animation-duration: $main-animation-duration;
+  animation-delay: calc(($main-animation-duration + $main-animation-delay) * 1);
 }
+
 @keyframes welcomeAnimate {
   to {
     transform: translateX(0);
